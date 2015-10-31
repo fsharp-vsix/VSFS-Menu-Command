@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="VSFS-MenuCommand.E884895D-0F3D-4ABA-8CA0-15865ADEAD72" Version="1.0" Language="en-US" Publisher="Jared Hester" />
+    <DisplayName>VSFS Menu Command</DisplayName>
+    <Description>F# for Visual Studio Commands</Description>
+  </Metadata>
+  <Installation InstalledByMsi="false" SystemComponent="false" Scope="ProductExtension">
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[12.0,13.0)" />
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[13.0,15.0)" />
+  </Installation>
+  <Dependencies>
+    <Dependency d:Source="Installed" Id="FSharp.Editor" 
+                DisplayName="Microsoft Visual FSharp Editor Extensions" 
+                Version="[12.0,15.0)" d:InstallSource="Download" Location="http://www.microsoft.com/en-us/download/details.aspx?id=48179" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
+    <Asset Type="Microsoft.VisualStudio.VsPackage"    d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+  </Assets>
+</PackageManifest>

@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--============ 
+    !!! NOTE !!!
+    ============
+    If you run into an error where you can no longer build the solution/project for a VSIX extension
+    and get the error message that the package is not installed you need to launch the experimental 
+    instance on it's own outside of visual studio.
+    
+    You can do this via the consle:    
+        cmd   - "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe" /RootSuffix Exp`
+        posh  -  & "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe" /RootSuffix Exp
+      
+    After closing this Experimental instance you should be able to build the project again.
+-->
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- This is needed to prevent forced migrations when opening the project in Vs2013 -->
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '12.0' ">
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+  </PropertyGroup>
+  <!-- This is needed to prevent forced migrations when opening the project in Vs14-->
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '14.0' ">
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A407D0DC-D42B-4BE9-9D31-88F3602DE622}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>VSFSMenuCommand</RootNamespace>
+    <AssemblyName>VSFSMenuCommand</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <GeneratePkgDefFile>true</GeneratePkgDefFile>
+    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
+    <Name>VSFSMenuCommand</Name>
+    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">12</MinimumVisualStudioVersion>
+    <VsSdkTargets>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\VSSDK\Microsoft.VsSDK.targets</VsSdkTargets>
+    <VsSdkTargets Condition=" '$(VisualStudioVersion)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v12.0\VSSDK\Microsoft.VsSDK.targets</VsSdkTargets>
+    <TargetFrameworkProfile />
+    <!--  Don't deploy the extension if being tested on AppVeyor -->
+    <DeployExtension Condition="'$(AppVeyor)' != ''">False</DeployExtension>
+    <!--  This will install the extension in an experimental instance for the same version of 
+          of Visual studio you're using -->
+    <StartAction>Program</StartAction>
+    <StartProgram>$(DevEnvDir)\devenv.exe</StartProgram>
+    <!-- Specifies, in bytes, where to align the sections of the output file. Valid values are 512, 1024, 2048, 4096, 8192 --> 
+    <FileAlignment>512</FileAlignment>
+    <!-- Running this project will launch the Experimental Instance in all modes -->
+    <StartArguments>/rootsuffix Exp</StartArguments>
+    <!--Deploy and Install the Extension in all modes -->
+    <DeployExtension>True</DeployExtension>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <Tailcalls>false</Tailcalls>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\Debug\VSFSMenuCommand.XML</DocumentationFile>
+    <DeployExtension>True</DeployExtension>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <Tailcalls>true</Tailcalls>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\Release\VSFSMenuCommand.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <FSharpTargetsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</FSharpTargetsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">12</MinimumVisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+  <PropertyGroup>
+    <UseCodebase>true</UseCodebase>
+  </PropertyGroup>
+  <Import Project="$(FSharpTargetsPath)" />
+  <ItemGroup>
+   
+    <Compile Include="VSFSPackage.fs" />
+
+    <!-- The Manifest contains the configuration information for this VSIX package
+         e.g. - Display info for the editor
+              - Assemblies included in the package
+              - Installation settings etc..                
+    -->    
+    <None Include="source.extension.vsixmanifest"/>    
+    <!-- VSCT - The Visual Studio Command Table
+         ======================================
+         this XML file stores the definitions of the commands and menu items that you want to 
+         register with Visual Studio. They need to reference the same GUIDs present in the package definition 
+         file "VSFSPackage.fs"
+    -->
+    <VSCTCompile Include="VSFSMenuCommand.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+    </VSCTCompile>
+    <!-- The .RESX file is a table of the resources being embedded into your assembly 
+    -->
+    <EmbeddedResource Include="Resources\VSFSPackage.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <ManifestResourceName>VSFSPackage</ManifestResourceName>
+      <MergeWithCTO>true</MergeWithCTO>
+    </EmbeddedResource>
+     <Compile Include="Resources\Assembly.fs" />
+    <None Include="Resources\Images.png" />
+    <Content Include="Resources\Package.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="EnvDTE80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.ComponentModelHost, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Threading, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="mscorlib" />
+    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.12.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
