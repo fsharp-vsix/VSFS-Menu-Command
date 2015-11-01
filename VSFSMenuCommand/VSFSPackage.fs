@@ -1,14 +1,12 @@
 ﻿namespace VSFSMenuCommand
 
-open System        
+open System
 open System.Threading
 open System.Runtime.InteropServices
-open System.ComponentModel
 open System.ComponentModel.Design
 open System.Windows.Forms
 open Microsoft.VisualStudio
 open Microsoft.VisualStudio.Shell
-open System.Diagnostics                        
 
 [<AutoOpen>]
 module Prelude =
@@ -25,23 +23,22 @@ module CommandIDs =  let cmdidVSFSMenu = 0x100u
 [< InstalledProductRegistration ("#110", "#112", "1.0", IconResourceID = 400) >]
 [< ProvideMenuResource ("Menus.ctmenu", 1) >]
 [< Guid "E884895D-0F3D-4ABA-8CA0-15865ADEAD72" >]
-[< ProvideBindingPath >]
 type VSFSPackage () as self =
     inherit Package ()
 
-    let menuExecuteHandler = 
-        EventHandler (fun _ _ -> Thread(fun () -> 
-            MessageBox.Show 
+    let menuExecuteHandler =
+        EventHandler (fun _ _ -> Thread(fun () ->
+            MessageBox.Show
                "Speech is my hammer, bang the world into shape\n\
                 Now let it fall.. HUH!" |> ignore).Start ())
 
     override __.Initialize () =
         base.Initialize ()
-        
+
         let output = self.GetOutputPane ( VSConstants.GUID_OutWindowGeneralPane ,
                                           "Hip Hop |> Seq.iter printfn \"%s\""      )
-        
-        output.OutputStringThreadSafe 
+
+        output.OutputStringThreadSafe
            "My restlessness is my nemesis\n\
             It's hard to really chill and sit still\n\
             Commit it to page, I write a rhyme\n\
@@ -52,16 +49,14 @@ type VSFSPackage () as self =
             Selector, wheel it back, I'm feeling that\n\
             From the core to the perimeter black\n\
             You know the motto\n\
-            Stay fluid even in staccato\n" 
+            Stay fluid even in staccato\n"
             |> ignore
 
         let menuService = base.GetService typeof<IMenuCommandService> :?> OleMenuCommandService
-        
+
         if isNull menuService then () else
-        let commandId   = CommandID (   Guids.guidVSFSMenuCommandCmdSet , 
+        let commandId   = CommandID (   Guids.guidVSFSMenuCommandCmdSet ,
                                         int CommandIDs.cmdidVSFSMenu    )
 
         let menuCommand = MenuCommand ( menuExecuteHandler, commandId   )
         menuService.AddCommand menuCommand
-
-
