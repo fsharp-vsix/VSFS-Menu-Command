@@ -28,12 +28,12 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A407D0DC-D42B-4BE9-9D31-88F3602DE622}</ProjectGuid>    
+    <ProjectGuid>{A407D0DC-D42B-4BE9-9D31-88F3602DE622}</ProjectGuid>
     <Name>VSFSMenuCommand</Name>
     <RootNamespace>VSFSMenuCommand</RootNamespace>
     <AssemblyName>VSFSMenuCommand</AssemblyName>
     <OutputType>Library</OutputType>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>    
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <!--  
           `.pkgdef` - The Package Definition
           ==================================
@@ -43,9 +43,8 @@
           This setting can be left false even if you don't include a manually created .pkgdef,
           the MsBuild will use the VSSDK tools to package your extension.                  
     -->
-    <GeneratePkgDefFile>false</GeneratePkgDefFile>
+    <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
-
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">12</MinimumVisualStudioVersion>
     <VsSdkTargets>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\VSSDK\Microsoft.VsSDK.targets</VsSdkTargets>
     <VsSdkTargets Condition=" '$(VisualStudioVersion)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v12.0\VSSDK\Microsoft.VsSDK.targets</VsSdkTargets>
@@ -55,7 +54,7 @@
     <!--  This will install the extension in an experimental instance of the same version 
           of Visual Studio that you're using -->
     <StartAction>Program</StartAction>
-    <StartProgram>$(DevEnvDir)\devenv.exe</StartProgram>
+    <StartProgram>$(DevEnvDir)devenv.exe</StartProgram>
     <!-- Specifies, in bytes, where to align the sections of the output file. Valid values are 512, 1024, 2048, 4096, 8192 -->
     <FileAlignment>512</FileAlignment>
     <!-- Building and Running this project will launch the Experimental Instance for all modes -->
@@ -73,11 +72,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Debug\VSFSMenuCommand.XML</DocumentationFile>
-<<<<<<< HEAD
-    <DeployExtension>True</DeployExtension>
-    <StartProgram>C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe</StartProgram>
-=======
->>>>>>> refs/remotes/cloudRoutine/master
   </PropertyGroup>
   <!-- Release Mode Configuration -->
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -104,30 +98,17 @@
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
   <Import Project="$(FSharpTargetsPath)" />
-<<<<<<< HEAD
   <ItemGroup>
-    <Compile Include="VSFSPackage.fs" />
-    <!-- The Manifest contains the configuration information for this VSIX package
-         e.g. - Display info for the editor
-              - Assemblies included in the package
-              - Installation settings etc..                
-    -->
-    <None Include="source.extension.vsixmanifest" />
-    <!-- VSCT - The Visual Studio Command Table
-=======
-  <ItemGroup>   
     <Compile Include="VSFSPackage.fs" />
     <!-- 
          The Manifest contains the configuration information for this VSIX package
          e.g. - Display info for the editor
               - Assemblies included in the package
               - Installation settings etc..                
-    -->    
-    <None Include="source.extension.vsixmanifest"/>    
+    -->
+    <None Include="source.extension.vsixmanifest" />
     <!-- 
          `.vsct` - The Visual Studio Command Table
->>>>>>> refs/remotes/cloudRoutine/master
-         ======================================
          this XML file stores the definitions of the commands and menu items that you want to 
          register with Visual Studio. They need to reference the same GUIDs present in the package definition 
          file "VSFSPackage.fs"
@@ -147,14 +128,6 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <Reference Include="Microsoft.VisualStudio.ComponentModelHost, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-    <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-    <Reference Include="Microsoft.VisualStudio.Shell.Interop.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-    <Reference Include="Microsoft.VisualStudio.Threading, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-=======
-
->>>>>>> refs/remotes/cloudRoutine/master
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
@@ -164,21 +137,17 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
-    <Reference Include="System.Windows.Forms" />    
-    
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="Microsoft.VisualStudio.OLE.Interop" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.12.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0" />
-    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-    <Reference Include="EnvDTE80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.ComponentModelHost, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-    <Reference Include="Microsoft.VisualStudio.Threading, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />    
-    
+    <Reference Include="Microsoft.VisualStudio.Threading, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
