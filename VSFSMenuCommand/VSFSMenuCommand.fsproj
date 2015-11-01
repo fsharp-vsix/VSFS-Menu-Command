@@ -40,9 +40,11 @@
           Set this to false if you need to manually configure your Package Definition,
           to include additional files/info in your Extensions, e.g. CodeSnippets, Configuration files,
           templates, and registry keys.
-          This setting can be left false even if you don't include a manually created .pkgdef,
-          the MsBuild will use the VSSDK tools to package your extension.                  
+          Otherwise set `<GeneratePkgDefFile/>` to True  
+          Menu and command extensions need a `.pkgdef` to register and load in Visual Studio,
+          however this is not the case for purely MEF based extensions.
     -->
+    <GeneratePkgDefFile>True</GeneratePkgDefFile>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
 
@@ -55,7 +57,7 @@
     <!--  This will install the extension in an experimental instance of the same version 
           of Visual Studio that you're using -->
     <StartAction>Program</StartAction>
-    <StartProgram>$(DevEnvDir)\devenv.exe</StartProgram>
+    <StartProgram>$(DevEnvDir)devenv.exe</StartProgram>
     <!-- Specifies, in bytes, where to align the sections of the output file. Valid values are 512, 1024, 2048, 4096, 8192 --> 
     <FileAlignment>512</FileAlignment>
     <!-- Building and Running this project will launch the Experimental Instance for all modes -->
